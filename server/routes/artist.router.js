@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
     let queryText = `SELECT * FROM "artists";`;
     pool.query(queryText).then((result) => {
         // send back our query results as an array of objects
+        console.log(result.rows);
         res.send(result.rows); // result.rows will always be an Array
     }).catch((error) => {
         console.log(`Error in GET /artists ${error}`);

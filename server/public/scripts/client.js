@@ -53,6 +53,7 @@ function getArtistData() {
     });
 }
 
+
 // get song data from the server
 function getSongData() {
     // Make AJAX GET request here
