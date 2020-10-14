@@ -31,8 +31,20 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
+    console.log(`In /artist POST with`, req.body);
     
-    res.sendStatus(201);
+    const songToAdd = req.body;
+    const queryText = `INSERT INTO "songs" ("title", "length", date_released)
+                       VALUES ($1, $2, $3);`;
+    pool.query(queryText, [songToAdd.title, songToAdd.length, songToAdd.date_released])
+        .then((responseFromDatabase) => {
+            console.log(responseFromDatabase);
+            // 201 means "created"
+            res.sendStatus(201);
+        }).catch((error) => {
+            console.log(`Error in POST /songs ${error}`);
+            res.sendStatus(500);
+        });
 });
 
 module.exports = router;

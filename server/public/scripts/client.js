@@ -3,7 +3,7 @@ $(document).ready(onReady);
 function onReady() {
     // Add our click handler for submit artist
     $('#submit-artist').on('click', sendArtistToServer);
-
+    $('#submit-song').on('click', sendSongToServer)
     // load data from the server, put it on the DOM
     getArtistData();
     getSongData();    
@@ -31,6 +31,34 @@ function sendArtistToServer() {
         console.log('error in artist post', error);        
     });
 }
+
+
+function sendSongToServer() {
+    // Put up a div blocking user input
+    console.log('In function sendSONGToServer');
+    // What we want to send to the server as data
+    const songToSend = {title: $('#song-name').val(), 
+                          // .val() will always return a string
+                          length: $('#song-length').val(),
+                          date_released: $('#date_released').val()
+                        };
+    console.log(songToSend);
+    // Send the data to the server
+    $.ajax({
+        method: 'POST',
+        url: '/songs',
+        data: songToSend
+    }).then(function(response) {
+        // happy path
+        console.log(response);
+        getArtistData();
+    }).catch(function(error) {
+        // unhappy path, something went wrong
+        console.log('error in song post', error);        
+    });
+}
+
+
 
 // get artist data from the server
 function getArtistData() {
